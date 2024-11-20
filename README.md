@@ -1,3 +1,3 @@
-# How to Deploy WebSocket Application on Azure Container
+# How to Deploy WebSocket Application To Azure Container Registry Repository
 
 [tbd]

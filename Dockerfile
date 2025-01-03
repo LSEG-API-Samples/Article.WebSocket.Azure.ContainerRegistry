@@ -1,5 +1,5 @@
 #Build stage
-ARG PYTHON_VERSION=3.10
+ARG PYTHON_VERSION=3.11
 ARG VARIANT=slim-bookworm
 FROM python:${PYTHON_VERSION}-slim-bookworm AS builder 
 
@@ -8,20 +8,9 @@ LABEL maintainer="LSEG Developer Relations"
 #Copy requirements.txt
 COPY requirements.txt .
 
-# ------------ Begin: For run in internal LSEG ZScaler environment only ------------
-#Image runs internet requests over HTTPS – Install Certs if dev environment
-
-#Add the CA Certificate to the container
-ADD ./ZscalerRootCerttificate.pem /usr/local/share/ca-certificates/ZscalerRootCertificate-2048-SHA256.crt
-RUN chmod 644 /usr/local/share/ca-certificates/ZscalerRootCertificate-2048-SHA256.crt && update-ca-certificates
-ENV REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
-
-# ------------ End: For run in internal LSEG ZScaler environment only ------------
-
-#Continue the build where the HTTPS Connections are made
-
 # install dependencies to the local user directory (eg. /root/.local)
-RUN pip install --no-cache-dir --user -r requirements.txt
+#RUN pip install --no-cache-dir --user -r requirements.txt
+RUN pip install --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --trusted-host pypi.org --no-cache-dir --user -r requirements.txt
 
 # Run stage
 FROM python:${PYTHON_VERSION}-alpine3.20

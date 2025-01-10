@@ -151,7 +151,27 @@ That is all for the repository preparation.
 
 ## Push your local application image to your Azure Container Registry Repository
 
-[tbd]
+์Now it is time to push an application image to the newly created **devrelmrn.azurecr.io** container registry. You need the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/) tool in this step.
+
+The first step is log in to your Azure account via the CLI tool. I am demonstrating with my Ubuntu 20.04 WSL. 
+
+```bash
+$ az login 
+```
+
+
+Now you have logged in to Azure, the next step is log in to the the registry instance with the registry resource name (**note the fully qualified login server name**).
+
+```bash
+$ az acr login --name <registry-name>
+```
+
+Example:
+
+```bash
+$ az acr login --name devrelmrn
+```
+
 
 ## Reference
 

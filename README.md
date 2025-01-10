@@ -159,6 +159,24 @@ The first step is log in to your Azure account via the CLI tool. I am demonstrat
 $ az login 
 ```
 
+The CLI tool opens a  web browser for authenticating with [Azure sign-in page](https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-auth-code-flow) by default. 
+
+![figure-14](images/azure_cli_1.png)
+
+Then log in to the opened browser with your Azure account and credential. The page should shows this logged in success message.
+
+![figure-15](images/azure_cli_2.png)
+
+Then proceed the steps on your CLI terminal by choosing your subscription tenant. 
+
+![figure-16](images/azure_cli_3.png)
+
+![figure-17](images/azure_cli_4.png)
+
+
+If you're using Azure CLI over a proxy server, you may encounter the ```SSLError("bad handshake: Error([('SSL routines', 'tls_process_server_certificate', 'certificate verify failed')],)",)``` error message. To address this issue, please follows an instruction on this [Azure CLI: Work behind a proxy](https://learn.microsoft.com/en-us/cli/azure/use-azure-cli-successfully-troubleshooting#work-behind-a-proxy) page.
+
+There are other ways and options to log in to Azure service via the Azure CLI, please check this [Sign into Azure interactively using the Azure CLI](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli-interactively) document for more detail.
 
 Now you have logged in to Azure, the next step is log in to the the registry instance with the registry resource name (**note the fully qualified login server name**).
 
@@ -172,6 +190,9 @@ Example:
 $ az acr login --name devrelmrn
 ```
 
+![figure-18](images/azure_cli_5.png)
+
+[tbd]
 
 ## Reference
 

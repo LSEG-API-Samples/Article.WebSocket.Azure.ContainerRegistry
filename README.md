@@ -20,7 +20,7 @@ The service also lets Developers/DepOps streamline building, testing, pushing, a
 
 ![figure-1](images/image1_azure_container.png "Azure Container Registry Service")
 
-This project shows the first step which is how to set up a registry, upload an application image and then how to pull it to a local environment. 
+This project shows the first step which is how to set up an image registry, upload an application image to Azure and how to pull it to a local environment. 
 
 ## <a id="prerequisite"></a>Prerequisite
 
@@ -29,21 +29,21 @@ This project requires the following software and account on your machine.
 1. RTO Access credentials (Version 2 - Service ID) with MRN data permission.
 2. [Microsoft Azure](https://azure.microsoft.com/en-us/get-started/azure-portal) account.
 3. [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) application.
-4. [Docker desktop](https://www.docker.com/products/docker-desktop/).
+4. [Docker desktop](https://www.docker.com/products/docker-desktop/) application.
 5. Internet connection.
 
 Please contact your LSEG representative to help you to access the RTO account and MRN service.
 
 ## <a id="app_preparation"></a>Application Container Preparation
 
-Developers need the following files from the [WebSocket API Machine Readable News Example with Python](https://github.com/LSEG-API-Samples/Example.WebSocketAPI.Python.MRN) project to create an application image with Docker.
+Let’s start with how to prepare your application image on your local machine. Developers need the following files from the [WebSocket API Machine Readable News Example with Python](https://github.com/LSEG-API-Samples/Example.WebSocketAPI.Python.MRN) project to create an application image with Docker.
 
 1. [mrn_console_rto_v2.py](https://github.com/LSEG-API-Samples/Example.WebSocketAPI.Python.MRN/blob/master/mrn_console_rto_v2.py) Python application file.
 2. [requirements.txt](https://github.com/LSEG-API-Samples/Example.WebSocketAPI.Python.MRN/blob/master/requirements.txt) Python dependencies configurations file.
 
-### Docker Image Preparation
+### Docker Image Set Up
 
-Next, create a file name ```Dockerfile``` as a blueprint for our image.
+Next, create a text file name ```Dockerfile``` as a blueprint for our image.
 
 ```Docker
 #Build stage
@@ -77,7 +77,7 @@ COPY mrn_console_rto_v2.py .
 ENTRYPOINT ["python", "mrn_console_rto_v2.py"]
 ```
 
-Please note that if you are not in the controlled network environment (like our beloved ZScaler), you can replace the ```RUN pip instal ....``` line with the following Docker instruction instead.
+Please note that if you are not in the controlled network environment (like our beloved ZScaler), you can replace the ```RUN pip instal ....``` line above with the following Docker instruction instead.
 
 ```Docker
 # install dependencies to the local user directory (eg. /root/.local)
@@ -85,13 +85,13 @@ RUN pip install --no-cache-dir --user -r requirements.txt
 ```
 ### Docker Image Testing
 
-To test our newly created Dockerfile, developers can build a test image on their local machine with the ```docker build``` command. 
+To test our newly created Dockerfile, developers can build a test image on their local machine with a ```docker build``` command. 
 
 ```bash
 docker build -t rto_v2_ws_mrn_python .
 ```
 
-Then verify if the build is succeed with the ```docker images``` command.
+Then verify if the build is succeed with a ```docker images``` command.
 
 ![figure-2](images/image2_mrn_image_local.png "Docker build local succeed")
 
@@ -99,11 +99,11 @@ You can check on [RTO Version 2 Authentication console Docker example](https://g
 
 ![figure-3](images/image3_mrn_run_local.png "Docker run local succeed")
 
-That is all for the example image.
+That is all for a Docker image set up stage.
 
 ## <a id="azure_setup"></a>Azure Container Registry Repository Set Up
 
-The second step is to create your repository the Container Registry service. I am demonstrating with the Azure Portal. If you prefer using the Azure CLI, please check [this document](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-get-started-azure-cli).
+That brings us to the second step, create your repository the Container Registry service. I am demonstrating with the Azure Portal. If you prefer using the Azure CLI, please check [this document](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-get-started-azure-cli).
 
 Once you have logged in to [Azure Portal](https://azure.microsoft.com/) website, type ```Container Registry``` on the portal search box to find the Container Registry service. Then click into the service.
 
@@ -197,7 +197,7 @@ $ az acr login --name devrelmrn
 
 ![figure-19](images/push_images_5.png)
 
-Next, tag the image with the fully qualified name of the registry name (which is **devrelmrn.azurecr.io** in this case) with the [Docker tag command](https://docs.docker.com/reference/cli/docker/image/tag/).
+Next, tag the image with the fully qualified name of the registry name (which is **devrelmrn.azurecr.io** in this case) with a [Docker tag command](https://docs.docker.com/reference/cli/docker/image/tag/).
 
 ```bash
 $ docker tag rto_v2_ws_mrn_python devrelmrn.azurecr.io/rto_v2_ws_mrn_python
@@ -237,9 +237,11 @@ You can click on an image name to see its details.
 
 Now your image is deployed on Azure Container registry, and you can pull it for later use anytime.
 
+That is all I have to say about how to push an image to Azure.
+
 ## <a id="pull_image"></a>Pull your image from the Container Registry to local
 
-To pull an image from Azure Container Registry to your local environment, you can use a [Docker pull command](https://docs.docker.com/reference/cli/docker/image/pull/) with ```<registry-name>.azurecr.io/<image-name>``` format as an image name.
+My next point is how to pull that image to run it locally. To pull an image from Azure Container Registry to your local environment, you can use a [Docker pull command](https://docs.docker.com/reference/cli/docker/image/pull/) with ```<registry-name>.azurecr.io/<image-name>``` format as an image name.
 
 Please note that you need to log in to Azure account and your container registry instance with the CLI tool before running a Docker pull command. Otherwise, a command returns "unauthorized" error message back to you. You can use a ```az account show -o jsonc``` command to check if your Azure CLI session is logged in.
 
@@ -285,7 +287,7 @@ $ docker rmi devrelmrn.azurecr.io/rto_v2_ws_mrn_python
 
 ![figure-30](images/pull_image_5.png)
 
-That is all for how pull n image from Azure to run it locally.
+That cover how to pull an image from Azure and run it locally.
 
 ##  <a id="next_steps"></a>Next Steps
 

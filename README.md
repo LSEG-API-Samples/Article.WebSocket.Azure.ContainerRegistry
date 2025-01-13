@@ -1,14 +1,18 @@
 # How to Deploy WebSocket Application To Azure Container Registry Repository
+- version: 1.0.0
+- Last update: Jan 2025
+- Environment: Docker and Azure CLI
+- Prerequisite: [Access to Azure](#prerequisite)
 
-## Overview
+## <a id="intro"></a>Introduction
 
-This project shows a step-by-step guide to public a container application to Microsoft [Azure Container Registry](https://azure.microsoft.com/en-us/products/container-registry) repository. I am reusing the [MRN WebSocket Python example application](https://github.com/LSEG-API-Samples/Example.WebSocketAPI.Python.MRN) (RTO with Version 2 Authentication) as an example application. However, the concept and main logic can be applied to any technologies that support containerization. 
+This project shows a step-by-step guide to public a container application to Microsoft [Azure Container Registry](https://azure.microsoft.com/en-us/products/container-registry) repository. I am reusing the [MRN WebSocket Python example application](https://github.com/LSEG-API-Samples/Example.WebSocketAPI.Python.MRN) (RTO with Version 2 Authentication) as an example Docker image application. However, the concept and main logic can be applied to any technologies that support containerization. 
 
 **Note**: 
 - My Azure Account is based on my Visual Studio Enterprise Subscription service which is may be different from your Azure account type.
 - The Azure Portal website UI/UX are subjected to change.
 
-## Introduction to Azure Container Registry
+## <a id="intro_azure"></a>Introduction to Azure Container Registry
 
 [Azure Container Registry](https://azure.microsoft.com/en-us/products/container-registry) is Microsoft own container hosing platform (the same as [Docker](https://www.docker.com/)'s [dockerhub](https://hub.docker.com/)). The repository handles private Docker/[OCI - Open Container Initiative](https://opencontainers.org/) images and artifacts with a fully managed, geo-replicated instance of OCI distribution. Developers can build, store and manage containers/artifacts to connect to across Azure services such as [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/products/kubernetes-service), [Azure App Service](https://azure.microsoft.com/en-us/products/app-service) and much more. 
 
@@ -18,7 +22,7 @@ The service also lets Developers/DepOps streamline building, testing, pushing, a
 
 This project shows the first step which is how to set up a registry, upload an application image and then how to pull it to a local environment. 
 
-## Prerequisite  
+## <a id="prerequisite"></a>Prerequisite
 
 This project requires the following software and account on your machine.
 
@@ -30,7 +34,7 @@ This project requires the following software and account on your machine.
 
 Please contact your LSEG representative to help you to access the RTO account and MRN service.
 
-## Application Container Preparation
+## <a id="app_preparation"></a>Application Container Preparation
 
 Developers need the following files from the [WebSocket API Machine Readable News Example with Python](https://github.com/LSEG-API-Samples/Example.WebSocketAPI.Python.MRN) project to create an application image with Docker.
 
@@ -97,59 +101,61 @@ You can check on [RTO Version 2 Authentication console Docker example](https://g
 
 That is all for the example image.
 
-## Azure Container Registry Repository Preparation
+## <a id="azure_setup"></a>Azure Container Registry Repository Set Up
 
 The second step is to create your repository the Container Registry service. I am demonstrating with the Azure Portal. If you prefer using the Azure CLI, please check [this document](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-get-started-azure-cli).
 
 Once you have logged in to [Azure Portal](https://azure.microsoft.com/) website, type ```Container Registry``` on the portal search box to find the Container Registry service. Then click into the service.
 
-![figure-3](images/azure_1.png)
+![figure-3](images/azure_setup_1.png)
 
 Please note that the next time you logged in to the portal, the Container Registry service will be available on the index page.
 
-![figure-4](images/azure_2.png)
+![figure-4](images/azure_setup_2.png)
 
 Now you are in the Container Registry page, click the ```+ Create``` button to create new registry for storing the MRN Python container.
 
-![figure-5](images/azure_3.png)
+![figure-5](images/azure_setup_3.png)
 
 In the **Basics*** tab, select your Azure subscription and choose ```Create new``` option for the Resource group value.
 
-![figure-6](images/azure_4.png)
+![figure-6](images/azure_setup_4.png)
 
 I am naming my resource group as *mrn_resource*.
 
-![figure-7](images/azure_4_5.png)
+![figure-7](images/azure_setup_4_5.png)
 
 Next, input your ```Registry name```. I am choosing *devrelmrn* as my registry resource name, you may choose the one that you prefer. Then select your nearest location (*Southeast Asia* in my case) and choose your prefer [Pricing Plans](https://azure.microsoft.com/en-us/pricing/details/container-registry/#pricing) which I am choosing the *Basic plan* for this demonstration.
 
-![figure-8](images/azure_5.png)
+![figure-8](images/azure_setup_5.png)
 
 Next, click the ```Review + create``` button.
 
 Once the page shows *Validation passed* message, click the ```Create``` button, then Azure will create your Container Registry resource.
 
+![figure-9](images/azure_setup_6.png)
+
 When the page shows *Your deployment is complete* message, click on the ```Got to resource``` button.
 
-![figure-9](images/azure_10.png)
+![figure-10](images/azure_setup_7.png)
 
-์Now we are on the newly created *devrelmrn* Container Registry main page. The URL for this registry is showed under the ```Login server``` information which is **devrelmrn.azurecr.io**. You can use this URL name to refer to this container repository.
+Now we are on the newly created *devrelmrn* Container Registry main page. The URL for this registry is showed under the ```Login server``` information which is **devrelmrn.azurecr.io**. You can use this URL name to refer to this container repository.
 
-![figure-10](images/azure_11.png)
+![figure-11](images/azure_setup_8.png)
 
 If you scroll the page down, there are some useful links on the **Get started** tab like the ```Push an image``` button that give you a quick guide on how to push an application image to this **devrelmrn.azurecr.io** container registry.
 
-![figure-11](images/azure_12.png)
+![figure-12](images/azure_setup_9.png)
 
-![figure-12](images/azure_13.png)
+![figure-13](images/azure_setup_10.png)
 
 The next time you access the main Container Registry service page, this repository will be available on the main page as follows.
 
-![figure-13](images/azure_14.png)
+![figure-14](images/azure_setup_11.png)
 
 That is all for the repository preparation.
 
-## Push your local application image to Azure Container Registry Repository
+## <a id="push_image"></a>Push your local application image to Azure Container Registry Repository
 
 Now it is time to push an application image to the newly created **devrelmrn.azurecr.io** container registry. You need the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/) tool in this step.
 
@@ -161,18 +167,17 @@ $ az login
 
 The CLI tool opens a  web browser for authenticating with [Azure sign-in page](https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-auth-code-flow) by default. 
 
-![figure-14](images/azure_cli_1.png)
+![figure-15](images/push_images_1.png)
 
 Then log in to the opened browser with your Azure account and credential. The page should shows this logged in success message.
 
-![figure-15](images/azure_cli_2.png)
+![figure-16](images/push_images_2.png)
 
 Then proceed the steps on your CLI terminal by choosing your subscription tenant. 
 
-![figure-16](images/azure_cli_3.png)
+![figure-17](images/push_images_3.png)
 
-![figure-17](images/azure_cli_4.png)
-
+![figure-18](images/push_images_4.png)
 
 If you're using Azure CLI over a proxy server, you may encounter the ```SSLError("bad handshake: Error([('SSL routines', 'tls_process_server_certificate', 'certificate verify failed')],)",)``` error message. To address this issue, please follows an instruction on this [Azure CLI: Work behind a proxy](https://learn.microsoft.com/en-us/cli/azure/use-azure-cli-successfully-troubleshooting#work-behind-a-proxy) page.
 
@@ -190,7 +195,7 @@ Example:
 $ az acr login --name devrelmrn
 ```
 
-![figure-18](images/azure_cli_5.png)
+![figure-19](images/push_images_5.png)
 
 Next, tag the image with the fully qualified name of the registry name (which is **devrelmrn.azurecr.io** in this case) with the [Docker tag command](https://docs.docker.com/reference/cli/docker/image/tag/).
 
@@ -200,7 +205,7 @@ $ docker tag rto_v2_ws_mrn_python devrelmrn.azurecr.io/rto_v2_ws_mrn_python
 
 Please be noticed that I did not specify the version of this image, so the version is ```latest``` by default
 
-![figure-19](images/azure_cli_6.png)
+![figure-20](images/push_images_6.png)
 
 Finally, push an image to Azure Container registry with a [Docker push command](https://docs.docker.com/reference/cli/docker/image/push/) command as follows
 
@@ -214,31 +219,31 @@ Example:
 $ docker push devrelmrn.azurecr.io/rto_v2_ws_mrn_python
 ```
 
-![figure-20](images/azure_cli_7.png)
+![figure-21](images/push_images_7.png)
 
-![figure-21](images/azure_cli_8.png)
+![figure-22](images/push_images_8.png)
 
 A ```docker images``` command shows this newly pushed image as follows.
 
-![figure-22](images/azure_cli_9.png)
+![figure-23](images/push_images_9.png)
 
 If you get back to your container registry on the Azure panel, an image will be available on the **Services --> Repositories** tab.
 
-![figure-23](images/azure_cli_10.png)
+![figure-24](images/push_images_10.png)
 
 You can click on an image name to see its details.
 
-![figure-24](images/azure_cli_11.png)
+![figure-25](images/push_images_11.png)
 
 Now your image is deployed on Azure Container registry, and you can pull it for later use anytime.
 
-## Pull your image from the Container Registry to local
+## <a id="pull_image"></a>Pull your image from the Container Registry to local
 
 To pull an image from Azure Container Registry to your local environment, you can use a [Docker pull command](https://docs.docker.com/reference/cli/docker/image/pull/) with ```<registry-name>.azurecr.io/<image-name>``` format as an image name.
 
 Please note that you need to log in to Azure account and your container registry instance with the CLI tool before running a Docker pull command. Otherwise, a command returns "unauthorized" error message back to you. You can use a ```az account show -o jsonc``` command to check if your Azure CLI session is logged in.
 
-![figure-25](images/pull_image_1.png)
+![figure-26](images/pull_image_1.png)
 
 
 ```bash
@@ -249,11 +254,11 @@ $ az acr login --name devrelmrn
 $ docker pull devrelmrn.azurecr.io/rto_v2_ws_mrn_python
 ```
 
-![figure-26](images/pull_image_2.png)
+![figure-27](images/pull_image_2.png)
 
 A ```Docker images``` shows your newly pull image as follows:
 
-![figure-27](images/pull_image_3.png)
+![figure-28](images/pull_image_3.png)
 
 Then you can run this image locally from the steps on **Docker Image Testing** section above.
 
@@ -269,7 +274,7 @@ $ az acr login --name devrelmrn
 $ docker run --pull=always --name mrn_azure -it --env-file .env devrelmrn.azurecr.io/rto_v2_ws_mrn_python MRN_STORY
 ```
 
-![figure-28](images/pull_image_4.png)
+![figure-29](images/pull_image_4.png)
 
 To delete an image, you can use a [Docker image rm command](https://docs.docker.com/reference/cli/docker/image/rm/) with the ``<registry-name>.azurecr.io/<image-name>``` format as an image name.
 Note: A associate container must be stopped and deleted before delete an image.
@@ -278,11 +283,15 @@ Note: A associate container must be stopped and deleted before delete an image.
 $ docker rmi devrelmrn.azurecr.io/rto_v2_ws_mrn_python
 ```
 
-![figure-29](images/pull_image_5.png)
+![figure-30](images/pull_image_5.png)
 
 That is all for how pull n image from Azure to run it locally.
 
-## Reference
+##  <a id="next_steps"></a>Next Steps
+
+[tbd]
+
+## <a id="reference"></a>Reference
 
 - [Azure Container Registry page](https://azure.microsoft.com/en-us/products/container-registry)
 - [Azure Container Registry documentation](https://learn.microsoft.com/en-us/azure/container-registry/)

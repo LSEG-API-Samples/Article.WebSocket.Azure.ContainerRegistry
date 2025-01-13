@@ -205,7 +205,7 @@ Please be noticed that I did not specify the version of this image, so the versi
 Finally, push an image to Azure Container registry with a [Docker push command](https://docs.docker.com/reference/cli/docker/image/push/) command as follows
 
 ```bash
-$ docker push <fully qualified login server name>/image-name:vesion
+$ docker push <fully qualified login server name>/image-name:version
 ```
 
 Example:
@@ -234,7 +234,53 @@ Now your image is deployed on Azure Container registry, and you can pull it for 
 
 ## Pull your image from the Container Registry to local
 
-[tbd]
+To pull an image from Azure Container Registry to your local environment, you can use a [Docker pull command](https://docs.docker.com/reference/cli/docker/image/pull/) with ```<registry-name>.azurecr.io/<image-name>``` format as an image name.
+
+Please note that you need to log in to Azure account and your container registry instance with the CLI tool before running a Docker pull command. Otherwise, a command returns "unauthorized" error message back to you. You can use a ```az account show -o jsonc``` command to check if your Azure CLI session is logged in.
+
+![figure-25](images/pull_image_1.png)
+
+
+```bash
+$ az login
+
+$ az acr login --name devrelmrn
+
+$ docker pull devrelmrn.azurecr.io/rto_v2_ws_mrn_python
+```
+
+![figure-26](images/pull_image_2.png)
+
+A ```Docker images``` shows your newly pull image as follows:
+
+![figure-27](images/pull_image_3.png)
+
+Then you can run this image locally from the steps on **Docker Image Testing** section above.
+
+Alternatively, you can use a [Docker run command](https://docs.docker.com/reference/cli/docker/container/run/) with ```--pull=always``` parameter to pull an image from Azure automatically and run it with a single command.
+
+Note: You still need to log in to Azure account and your container registry instance with the CLI tool.
+
+```bash
+$ az login
+
+$ az acr login --name devrelmrn
+
+$ docker run  --pull=always --name mrn_azure -it --env-file .env devrelmrn.azurecr.io/rto_v2_ws_mrn_python MRN_STORY
+```
+
+![figure-28](images/pull_image_4.png)
+
+To delete an image, you can use a [Docker image rm command](https://docs.docker.com/reference/cli/docker/image/rm/) with the ``<registry-name>.azurecr.io/<image-name>``` format as an image name.
+Note: A associate container must be stopped and deleted before delete an image.
+
+```bash
+$ docker rmi devrelmrn.azurecr.io/rto_v2_ws_mrn_python
+```
+
+![figure-29](images/pull_image_5.png)
+
+That is all for how pull n image from Azure to run it locally.
 
 ## Reference
 

@@ -266,7 +266,7 @@ $ az login
 
 $ az acr login --name devrelmrn
 
-$ docker run  --pull=always --name mrn_azure -it --env-file .env devrelmrn.azurecr.io/rto_v2_ws_mrn_python MRN_STORY
+$ docker run --pull=always --name mrn_azure -it --env-file .env devrelmrn.azurecr.io/rto_v2_ws_mrn_python MRN_STORY
 ```
 
 ![figure-28](images/pull_image_4.png)

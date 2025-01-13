@@ -149,9 +149,9 @@ The next time you access the main Container Registry service page, this reposito
 
 That is all for the repository preparation.
 
-## Push your local application image to your Azure Container Registry Repository
+## Push your local application image to Azure Container Registry Repository
 
-์Now it is time to push an application image to the newly created **devrelmrn.azurecr.io** container registry. You need the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/) tool in this step.
+Now it is time to push an application image to the newly created **devrelmrn.azurecr.io** container registry. You need the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/) tool in this step.
 
 The first step is log in to your Azure account via the CLI tool. I am demonstrating with my Ubuntu 20.04 WSL. 
 
@@ -191,6 +191,48 @@ $ az acr login --name devrelmrn
 ```
 
 ![figure-18](images/azure_cli_5.png)
+
+Next, tag the image with the fully qualified name of the registry name (which is **devrelmrn.azurecr.io** in this case) with the [Docker tag command](https://docs.docker.com/reference/cli/docker/image/tag/).
+
+```bash
+$ docker tag rto_v2_ws_mrn_python devrelmrn.azurecr.io/rto_v2_ws_mrn_python
+```
+
+Please be noticed that I did not specify the version of this image, so the version is ```latest``` by default
+
+![figure-19](images/azure_cli_6.png)
+
+Finally, push an image to Azure Container registry with a [Docker push command](https://docs.docker.com/reference/cli/docker/image/push/) command as follows
+
+```bash
+$ docker push <fully qualified login server name>/image-name:vesion
+```
+
+Example:
+
+```bash
+$ docker push devrelmrn.azurecr.io/rto_v2_ws_mrn_python
+```
+
+![figure-20](images/azure_cli_7.png)
+
+![figure-21](images/azure_cli_8.png)
+
+A ```docker images``` command shows this newly pushed image as follows.
+
+![figure-22](images/azure_cli_9.png)
+
+If you get back to your container registry on the Azure panel, an image will be available on the **Services --> Repositories** tab.
+
+![figure-23](images/azure_cli_10.png)
+
+You can click on an image name to see its details.
+
+![figure-24](images/azure_cli_11.png)
+
+Now your image is deployed on Azure Container registry, and you can pull it for later use anytime.
+
+## Pull your image from the Container Registry to local
 
 [tbd]
 

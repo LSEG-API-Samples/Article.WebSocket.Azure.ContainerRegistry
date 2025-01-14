@@ -291,7 +291,17 @@ That cover how to pull an image from Azure and run it locally.
 
 ##  <a id="next_steps"></a>Next Steps
 
-[tbd]
+That brings me to the end of this project. This project shows only step-by-step guide for the basic tasks such as set up Azure Container Registry repository, push your local application image to Azure, and pull an image back to your machine. There are more tasks that help you improve container lifecycle management like the following:
+
+- Use the development pipelines to automate container building, testing, pushing and deploying when developers commit code to Git repository
+- Scale your container registry to serve developers across regions
+- Connect to other Azure services like [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/products/kubernetes-service) or [Azure App Service](https://azure.microsoft.com/en-in/products/app-service) or [Azure Container Apps](https://azure.microsoft.com/en-us/products/container-apps), and much more.
+
+You can find more information on the following Azure resources pages 
+
+- [Automate container image builds and maintenance with Azure Container Registry tasks]((https://learn.microsoft.com/en-us/azure/container-registry/container-registry-tasks-overview))
+- [Azure Container Registry documentation](https://learn.microsoft.com/en-us/azure/container-registry/)
+- [List of Azure Container Services](https://azure.microsoft.com/en-us/products/category/containers)
 
 ## <a id="reference"></a>Reference
 

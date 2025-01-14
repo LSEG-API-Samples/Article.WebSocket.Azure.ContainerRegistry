@@ -303,7 +303,7 @@ You can find more information on the following Azure resources pages
 - [Azure Container Registry documentation](https://learn.microsoft.com/en-us/azure/container-registry/)
 - [List of Azure Container Services](https://azure.microsoft.com/en-us/products/category/containers)
 
-Please note that your application image does not limit to the [WebSocket API](https://developers.lseg.com/en/api-catalog/real-time-opnsrc/websocket-api) or Machine Readable News data, any applications that support containerization can be utilized Azure Container Registry service.
+Please note that your application image does not limit to the [WebSocket API](https://developers.lseg.com/en/api-catalog/real-time-opnsrc/websocket-api)/[Real-Time APIs](https://developers.lseg.com/en/use-cases-catalog/real-time)  or Machine Readable News data, any applications that support containerization can be utilized Azure Container Registry service.
 
 ## <a id="reference"></a>Reference
 

@@ -105,7 +105,7 @@ Once the page shows *Validation passed* message, click the ```Create``` button, 
 
 ![figure-9](images/azure_setup_6.png)
 
-When the page shows *Your deployment is complete* message, click on the ```Got to resource``` button.
+When the page shows *Your deployment is complete* message, click on the ```Go to resource``` button.
 
 ![figure-10](images/azure_setup_7.png)
 
@@ -153,7 +153,7 @@ If you're using Azure CLI over a proxy server, you may encounter the ```SSLError
 
 There are other ways and options to log in to Azure service via the Azure CLI, please check this [Sign into Azure interactively using the Azure CLI](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli-interactively) document for more detail.
 
-Now you have logged in to Azure, the next step is log in to the the registry instance with the registry resource name (**note the fully qualified login server name**).
+Now you have logged in to Azure, the next step is log in to the the registry instance with the registry resource name (**not the fully qualified login server name**).
 
 ```bash
 $ az acr login --name <registry-name>
@@ -248,7 +248,7 @@ $ docker run --pull=always --name mrn_azure -it --env-file .env devrelmrn.azurec
 
 ![figure-29](images/pull_image_4.png)
 
-To delete an image, you can use a [Docker image rm command](https://docs.docker.com/reference/cli/docker/image/rm/) with the ``<registry-name>.azurecr.io/<image-name>``` format as an image name.
+To delete an image, you can use a [Docker image rm command](https://docs.docker.com/reference/cli/docker/image/rm/) with the ```<registry-name>.azurecr.io/<image-name>``` format as an image name.
 Note: A associate container must be stopped and deleted before delete an image.
 
 ```bash

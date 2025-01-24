@@ -48,7 +48,7 @@ That brings me to the end of this project. This project shows only step-by-step 
 
 You can find more information on the following Azure resources pages 
 
-- [Automate container image builds and maintenance with Azure Container Registry tasks]((https://learn.microsoft.com/en-us/azure/container-registry/container-registry-tasks-overview))
+- [Automate container image builds and maintenance with Azure Container Registry tasks](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-tasks-overview)
 - [Azure Container Registry documentation](https://learn.microsoft.com/en-us/azure/container-registry/)
 - [List of Azure Container Services](https://azure.microsoft.com/en-us/products/category/containers)
 
